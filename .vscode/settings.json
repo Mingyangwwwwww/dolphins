@@ -1,0 +1,29 @@
+{
+    "files.associations": {
+        "tcp.h": "c",
+        "instruction_cache.h": "c",
+        "unistd.h": "c",
+        "controller.h": "c",
+        "cmath": "c",
+        "pathtrack.h": "c",
+        "pthread.h": "c",
+        "simulation.h": "c",
+        "rudder.h": "c",
+        "thrust.h": "c",
+        "limits": "c",
+        "ratio": "c",
+        "system_error": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "navigator.h": "c",
+        "random": "c",
+        "string": "c",
+        "cstdio": "c",
+        "time.h": "c",
+        "math.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}
