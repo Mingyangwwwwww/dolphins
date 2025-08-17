@@ -87,6 +87,7 @@ void execute_CM(State* state, char* data) {
         // printf("不符合控制指令格式\n");
         return;
     }
+    state->pathtrack_switch=0;//关闭
     state->zigzag_switch=0;
     // CTRL_DATA_PSI.ErrorSum=0;
     // CTRL_DATA_PSI.rudder_int=0;
