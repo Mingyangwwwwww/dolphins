@@ -36,7 +36,7 @@ typedef struct{
     double ye_1;
 } guidance_Data;  
 
-double ILOS(double ye);
+double ILOS(double);
 void init_Point(PathPoint *p, int size);
 void free_Point(PathPoint *p);
 double trackguidance(PathPoint *point,double USV[3]);

@@ -84,6 +84,7 @@ double ILOS(double ye) {
     return psid;
 }
 
+
 //参考航向角，切向角，横向误差，制导参数
 double LOS(double psi, double psit, double error, double delta) {
     double psid = psit + atan(error / delta) / PI * 180.0;

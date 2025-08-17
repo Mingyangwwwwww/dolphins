@@ -33,6 +33,7 @@ void* execute_instructions(void* arg) {    //void*不规定具体的格式
         execute_PP(state, curr->data);
         execute_PA(state, curr->data);
         execute_ZT(state, curr->data);
+        execute_UU(state, curr->data);
         pthread_mutex_unlock(&state->mutex);
   
         //执行指令结束
@@ -87,13 +88,13 @@ void execute_CM(State* state, char* data) {
         return;
     }
     state->zigzag_switch=0;
-    CTRL_DATA_PSI.ErrorSum=0;
-    CTRL_DATA_PSI.rudder_int=0;
-    CTRL_DATA_V.ErrorSum=0;
-    CTRL_DATA_R.ErrorSum=0;
-    memcpy(CTRL_DATA_PSI.FY_1,CTRL_DATA_PSI.FY0,sizeof(CTRL_DATA_PSI.FY0));
-    memcpy(CTRL_DATA_V.FY_1,CTRL_DATA_V.FY0,sizeof(CTRL_DATA_V.FY0));
-    memcpy(CTRL_DATA_R.FY_1,CTRL_DATA_R.FY0,sizeof(CTRL_DATA_R.FY0));
+    // CTRL_DATA_PSI.ErrorSum=0;
+    // CTRL_DATA_PSI.rudder_int=0;
+    // CTRL_DATA_V.ErrorSum=0;
+    // CTRL_DATA_R.ErrorSum=0;
+    // memcpy(CTRL_DATA_PSI.FY_1,CTRL_DATA_PSI.FY0,sizeof(CTRL_DATA_PSI.FY0));
+    // memcpy(CTRL_DATA_V.FY_1,CTRL_DATA_V.FY0,sizeof(CTRL_DATA_V.FY0));
+    // memcpy(CTRL_DATA_R.FY_1,CTRL_DATA_R.FY0,sizeof(CTRL_DATA_R.FY0));
     // 找到第一个和第二个逗号的位置
     char* first_comma = strchr(data, ',');
     char* second_comma = strchr(first_comma + 1, ',');
@@ -326,6 +327,19 @@ void execute_PA(State* state, char* data) {
             pthread_mutex_lock(&CTRL_DATA_R.mutex);
     }
 }
+
+//无人艇命令接口
+void execute_UU(State* state, char* data) {
+    if (data[0] != '$' || data[1] != 'U' || data[2] != 'U' || data[strlen(data) - 2] != '*' || data[strlen(data) - 1] != '&') {
+        // printf("不符合Z型试验指令格式\n");
+        return;
+    }
+    state->zigzag_switch=0;
+    state->controller_switch=1;//控制器控制。0表示关闭控制模式，1表示对psid进行跟踪，2表示对rd进行跟踪，3表示对psid跟踪，但是推进器靠电压控制
+    state->pathtrack_switch=1; //开启航路点跟踪
+}
+
+
 
 //对面发送时间
 void execute_TI(State* state, char* data) {

@@ -23,7 +23,8 @@
         "string": "c",
         "cstdio": "c",
         "time.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "string.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

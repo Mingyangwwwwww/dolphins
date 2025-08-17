@@ -42,6 +42,7 @@ void execute_PP(State*, char*);
 void execute_PA(State*, char*);
 void execute_TI(State*, char*);
 void execute_ZT(State*, char*);
+void execute_UU(State*, char*);
 void* execute_instructions(void* arg);
 void add_instruction(instruction_list_t* list, char* data);
 void reset_instruction_list(instruction_list_t* list);

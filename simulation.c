@@ -107,9 +107,11 @@ void* thread_simulation(void* arg) {
         // fprintf(fp, "%.5f,%.5f,%.5f,%.5f\n",
         //         state->USV_velocity, state->UUV_velocity, state->vol, state->delta);
         if(state->pathtrack_switch==1){//表明现在是轨迹跟踪模式
-            pthread_mutex_lock(&Point.lock);
-            state->psid=trackguidance(&Point,state->USV[0]);
-            pthread_mutex_unlock(&Point.lock);
+            //pthread_mutex_lock(&Point.lock);
+            //state->psid=trackguidance(&Point,state->USV[0]);
+            //pthread_mutex_unlock(&Point.lock);
+            state->psid=ILOS(state->USV[0][2]-50.0);
+            
         }
         
         if(state->controller_switch>0 && state->controller_switch<=2 && state->zigzag_switch==0){              //表明现在是期望航向航速模式
