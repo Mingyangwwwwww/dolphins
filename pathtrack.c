@@ -6,12 +6,11 @@
 PathPoint Point;
 
 
-guidance_Data GUI_DATA = { // 初始化全局变量  
+guidance_Data guidance_Data = { // 初始化全局变量  
     .delta = 10,
     .y_int=0,
     .sigma=0.1,
 };
-
 
 
 void init_Point(PathPoint* point, int num) {
@@ -67,6 +66,23 @@ static double convert_direction(double psid, double psi) {
     return psid;
 }
 
+
+static double ILOS(double ye) {
+    double psid;
+    if(fabs(ye)<3){//离航线比较近
+        double delta=guidance_Data.delta;
+        guidance_Data.y_int+=(ye*delta)/(pow(delta,2)+pow(ye+ guidance_Data.sigma*guidance_Data.y_int,2));
+        psid = -atan((ye+ guidance_Data.sigma*guidance_Data.y_int)/delta) / M_PI * 180.0;
+    }else{
+        double delta=guidance_Data.delta;
+        guidance_Data.y_int=0;//清理积分项
+        psid = -atan(ye/delta) / M_PI * 180.0;
+
+    }
+
+    guidance_Data.ye_1=ye;
+    return psid;
+}
 
 //参考航向角，切向角，横向误差，制导参数
 double LOS(double psi, double psit, double error, double delta) {
@@ -154,7 +170,7 @@ double trackguidance(PathPoint *point, double USV[3]) {
         double delta_y=(point->y[point->index] - USV[2]);//经度方向y
         double xe, ye;
         error(point->psi[point->index], delta_x, delta_y, &xe, &ye);
-        double psid = LOS(USV[0], point->psi[point->index], ye, GUI_DATA.delta); 
+        double psid = LOS(USV[0], point->psi[point->index], ye, guidance_Data.delta); 
         printf("Cross-track Error: /(%f, %f) meters   ", xe, ye);
         printf("Path Angle: %f degrees\n", point->psi[point->index]);
         printf("LOS Guidance Angle: %f degrees\n", psid );
