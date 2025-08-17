@@ -33,6 +33,7 @@ typedef struct{
     double delta; //视线角制导
     double y_int;
     double sigma;
+    double y_1;
 } guidance_Data;  
 
 
