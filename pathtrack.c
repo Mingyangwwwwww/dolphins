@@ -10,6 +10,7 @@ guidance_Data GUI_DATA = { // 初始化全局变量
     .delta = 10,
     .y_int=0,
     .sigma=0.1,
+    .ye_1=0
 };
 
 
@@ -67,6 +68,21 @@ static double convert_direction(double psid, double psi) {
     return psid;
 }
 
+double ILOS(double ye) {
+    double psid;
+    if(fabs(ye)<3){//离航线比较近
+        double delta=GUI_DATA.delta;
+        GUI_DATA.y_int+=(ye*delta)/(pow(delta,2)+pow(ye+ GUI_DATA.sigma*GUI_DATA.y_int,2));
+        psid = -atan((ye+ GUI_DATA.sigma*GUI_DATA.y_int)/delta) / M_PI * 180.0;
+    }else{
+        double delta=GUI_DATA.delta;
+        GUI_DATA.y_int=0;//清理积分项
+        psid = -atan(ye/delta) / M_PI * 180.0;
+
+    }
+    GUI_DATA.ye_1=ye;
+    return psid;
+}
 
 //参考航向角，切向角，横向误差，制导参数
 double LOS(double psi, double psit, double error, double delta) {
