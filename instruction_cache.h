@@ -26,7 +26,6 @@ typedef struct {
 } instruction_list_t;
 
 
-//瀹氫箟浼犲弬锛岀敤浜庣嚎绋嬮€氫俊
 typedef struct {
     instruction_list_t* list;
     State* state;
